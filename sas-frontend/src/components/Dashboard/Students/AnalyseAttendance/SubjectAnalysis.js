@@ -8,8 +8,8 @@ function SubjectAnalysis(props) {
   return (
     <div className="flex flex-col justify-center items-center sm:flex-row">
       <CalendarHeatmap
-        startDate={new Date('2023-01-01')}
-        endDate={new Date('2023-08-01')}
+        startDate={new Date('2023-08-01')}
+        endDate={new Date('2024-03-01')}
         showWeekdayLabels={true}
         values={props.data}
         showOutOfRangeDays={true}

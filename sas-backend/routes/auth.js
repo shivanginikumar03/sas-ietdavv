@@ -25,7 +25,7 @@ router.get('/verify/:token', (req, res) => {
       db.query(
         `INSERT INTO user_auth VALUES('${userData.email}','${userData.secPassword}')`
       );
-      res.redirect(`/login`);
+      res.status(200).send('Email verified successfully. You can now login!');
     }
   });
 });
@@ -81,6 +81,7 @@ router.post(
       );
 
       const emailSent = sendVerificationMail(email, token);
+
       emailSent
         ? res
           .status(200)
@@ -93,6 +94,7 @@ router.post(
             'Failed to send verification email. Please Provide a valid email address!'
           );
     } catch (error) {
+      console.error(error.message);
       res.status(500).send('Some Error occured');
     }
   }

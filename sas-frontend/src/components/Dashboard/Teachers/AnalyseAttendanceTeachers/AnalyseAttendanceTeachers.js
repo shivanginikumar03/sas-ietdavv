@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadingActions } from '../../../../store/loadingSlice';
 import 'react-calendar-heatmap/dist/styles.css';
+import moment from 'moment';
 import {
   LineChart,
   Line,
@@ -36,9 +37,8 @@ function AnalyseAttendanceTeachers() {
     dispatch(loadingActions.setLoading({ loading: false, msg: 'loading' }));
   }, []);
 
-  const date = `${value.getFullYear()}-${
-    value.getMonth() + 1
-  }-${value.getDate()}`;
+  const date = `${value.getFullYear()}-${value.getMonth() + 1
+    }-${value.getDate()}`;
   const rowClass = 'mb-2 flex justify-between items-center';
 
   var tooltip;
@@ -48,7 +48,7 @@ function AnalyseAttendanceTeachers() {
       if (bar.date === tooltip)
         return (
           <div>
-            {bar.date}
+            {moment(bar.date).format('DD-MM-YYYY')}
             <br />
             {bar.count}
           </div>
