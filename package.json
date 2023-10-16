@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "concurrently": "^7.1.0"
+  },
+  "name": "dbms-minor-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "cd sas-frontend && npm start",
+    "backend": "cd sas-backend && nodemon index.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run backend\" \"npm run frontend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
