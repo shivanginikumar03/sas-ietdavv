@@ -3,7 +3,7 @@ import Button from './Button';
 import FormGroup from './FormGroup';
 import InputGroup from './InputGroup';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loadingActions } from '../../store/loadingSlice';
 import { notificationActions } from '../../store/notificationSlice';
 import logo from '../../assets/logo2.svg';
@@ -12,7 +12,6 @@ function SideLogin() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   let history = useNavigate();
   const dispatch = useDispatch();
-  // const type = useSelector(state => state.type.type)
   const type = localStorage.getItem('type');
 
   const handleSubmit = async (e) => {

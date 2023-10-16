@@ -102,8 +102,8 @@ router.post('/getsubjects', fetchUser, async (req, res) => {
     for (let index = 0; index < totalClassInEachSubject.rows.length; index++) {
       const percentage = classAttendedInEachSubject.rows[index]
         ? (classAttendedInEachSubject.rows[index].class_attended /
-            totalClassInEachSubject.rows[index].classes) *
-          100
+          totalClassInEachSubject.rows[index].classes) *
+        100
         : 0;
       percentageInEachSubject.push(percentage);
     }

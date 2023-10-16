@@ -6,46 +6,14 @@ const jwt = require('jsonwebtoken');
 var fetchUser = require('../middleware/fetchUser');
 require('dotenv').config();
 const db = require('../db');
-const { createTransport } = require('nodemailer');
-const smtpTransport = require('nodemailer-smtp-transport');
-
-const transporter = createTransport(
-  smtpTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASSWORD,
-    },
-  })
-);
-
-//Function to send verification mail
-const sendVerificationMail = (sendTo, verificationToken) => {
-  const mailConfigurations = {
-    from: process.env.EMAIL_USERNAME,
-    to: sendTo,
-    subject: 'Verify your SAS-IETDAVV Account',
-    text: `Thank you for signup to SAS-IETDAVV please click the link to verifiy your account:
-    ${process.env.BACKEND_ENDPOINT}/api/auth/verify/${verificationToken}
-    
-    Please ignore this email if this was not attemted by you.`,
-  };
-
-  transporter.sendMail(mailConfigurations, function (error, info) {
-    console.error(error);
-    console.log(info);
-  });
-
-  return true;
-};
+const sendVerificationMail = require('../utlils/sendVerificationMail');
 
 //Verify email of user
 router.get('/verify/:token', (req, res) => {
   const { token } = req.params;
 
   // Verifing the JWT token
-  jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       res
         .status(400)
@@ -66,10 +34,10 @@ router.get('/verify/:token', (req, res) => {
 router.post(
   '/createuser',
   [
-    body('email', 'Enter a valid email').isEmail(),
+    body('email', 'Enter a valid email').isEmail().exists(),
     body('password', 'Password must be atleast 5 characters').isLength({
       min: 5,
-    }),
+    }).exists(),
     body('type', 'Type Not Found').exists(),
   ],
   async (req, res) => {
@@ -93,16 +61,12 @@ router.post(
           ? await db.query(`SELECT * FROM students WHERE email= '${email}'`)
           : await db.query(`SELECT * FROM teacher WHERE email= '${email}'`);
 
-      const varified = true;
-
       if (user.rows.length > 0) {
         res.status(400).send('Sorry a user with this email already exists!');
-        varified = false;
       }
 
       if (clg_authenticated.rows.length === 0) {
         res.status(400).send('Sorry your email is not registered by collage!');
-        varified = false;
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -116,20 +80,18 @@ router.post(
         { expiresIn: '10m' }
       );
 
-      if (varified) {
-        const emailSent = sendVerificationMail(email, token);
-        emailSent
-          ? res
-              .status(200)
-              .send(
-                'Verification Email Sent! Please verify your account to continue.'
-              )
-          : res
-              .status(400)
-              .send(
-                'Failed to send verification email. Please Provide a valid email address!'
-              );
-      }
+      const emailSent = sendVerificationMail(email, token);
+      emailSent
+        ? res
+          .status(200)
+          .send(
+            'Verification Email Sent! Please verify your account to continue.'
+          )
+        : res
+          .status(400)
+          .send(
+            'Failed to send verification email. Please Provide a valid email address!'
+          );
     } catch (error) {
       res.status(500).send('Some Error occured');
     }

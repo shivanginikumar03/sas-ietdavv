@@ -11,20 +11,18 @@ function InputGroup({
   defaultValue = "",
   description = "",
   horizontal = false,
-  onChange = () => {},
+  onChange = () => { },
   ...newProps
 }) {
   const hasError = error || errorText
-  const finalClass = `${className} w-full border border-gray-300 rounded-sm px-4 py-3 outline-none transition-colors duration-150 ease-in-out focus:border-blue-400 ${
-    hasError && `border-red-600`
-  }`
+  const finalClass = `${className} w-full border border-gray-300 rounded-sm px-4 py-3 outline-none transition-colors duration-150 ease-in-out focus:border-blue-400 ${hasError && `border-red-600`
+    }`
   return (
     <div className={horizontal ? "sm:flex sm:items-center" : ""}>
       {label && (
         <label
-          className={`text-sm text-gray-600 ${hasError && "text-red-600"} ${
-            horizontal && "sm:w-24"
-          }`}
+          className={`text-sm text-gray-600 ${hasError && "text-red-600"} ${horizontal && "sm:w-24"
+            }`}
           htmlFor={name}
         >
           {label}

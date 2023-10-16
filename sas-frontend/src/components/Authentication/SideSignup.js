@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import Button from './Button';
 import FormGroup from './FormGroup';
 import InputGroup from './InputGroup';
-// import {useNavigate} from "react-router-dom"
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { notificationActions } from '../../store/notificationSlice';
 import logo from '../../assets/logo2.svg';
 
 function SideSignup() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
-  // const type = useSelector(state => state.type.type)
   const type = localStorage.getItem('type');
-  // let history = useNavigate()
+
   let dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
@@ -30,19 +28,19 @@ function SideSignup() {
 
     response.status === 200
       ? dispatch(
-          notificationActions.setNotification({
-            type: 'success',
-            message:
-              'Verification email sent please verify your account to continue.',
-          })
-        )
+        notificationActions.setNotification({
+          type: 'success',
+          message:
+            'Verification email sent please verify your account to continue.',
+        })
+      )
       : dispatch(
-          notificationActions.setNotification({
-            type: 'danger',
-            message:
-              'A user with this email already exist or not authenticated by collage!',
-          })
-        );
+        notificationActions.setNotification({
+          type: 'danger',
+          message:
+            'A user with this email already exist or not authenticated by collage!',
+        })
+      );
     e.target.reset();
   };
 

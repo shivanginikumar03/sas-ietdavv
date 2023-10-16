@@ -5,7 +5,7 @@ INNER JOIN students ON students.roll_number = attendance.roll_number
 INNER JOIN teaches ON attendance.subject_code = teaches.subject_code 
 INNER JOIN subject ON attendance.subject_code = subject.subject_code 
 INNER JOIN teacher ON teaches.email = teacher.email
-WHERE students.email = '20bit056@ietdavv.edu.in';
+WHERE students.email = '20bit057@ietdavv.edu.in';
 
 -- Subjects Fetch 
 SELECT subject.subject_name, subject.subject_code, teacher.name
@@ -31,20 +31,20 @@ WHERE attendance.subject_code IN (
     FROM takes
     INNER JOIN class ON (class.semester_number = takes.semester_number) AND (class.branch = takes.branch)
     INNER JOIN students ON class.roll_number = students.roll_number
-    WHERE students.email = '20bit056@ietdavv.edu.in'
+    WHERE students.email = '20bit057@ietdavv.edu.in'
 )
 GROUP BY subject_code ORDER BY subject_code;
 
     -- Class Attended in each subject 
 SELECT subject_code, COUNT(*) AS class_attended FROM attendance
 INNER JOIN students on students.roll_number = attendance.roll_number
-WHERE students.email = '20bit056@ietdavv.edu.in' AND attendance.status = 'Present'
+WHERE students.email = '20bit057@ietdavv.edu.in' AND attendance.status = 'Present'
 GROUP BY subject_code ORDER BY subject_code;
 
 -- Dates and Status of Attendance 
 SELECT date, status, subject_code FROM attendance
 INNER JOIN students ON students.roll_number = attendance.roll_number 
-WHERE students.email = '20bit056@ietdavv.edu.in'
+WHERE students.email = '20bit057@ietdavv.edu.in'
 ORDER BY date;
 
 -- Teaches Details
@@ -81,9 +81,9 @@ SELECT date, count(*) FROM attendance WHERE subject_code = 'AIR4C1'
 AND status = 'Present' GROUP BY date;
 
 -- Getting user password
-SELECT password FROM student_authentications WHERE email='20bit056@ietdavv.edu.in';
+SELECT password FROM student_authentications WHERE email='20bit057@ietdavv.edu.in';
 
 -- Update user password
 UPDATE student_authentications SET 
 password='$2a$10$exlf2heGUTNZdRrkqN1BOOkO0OmTNtFrfxEf7pjxZNe62NYLqgr2e' 
-WHERE email='20bit056@ietdavv.edu.in';
+WHERE email='20bit057@ietdavv.edu.in';
