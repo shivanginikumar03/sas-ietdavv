@@ -1,37 +1,36 @@
 -- CREATE QUERIES 
 CREATE TABLE user_auth (
-    email VARCHAR(50) PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
     password VARCHAR(100) NOT NULL,
     date DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE students (
-    email VARCHAR(50) FOREIGN KEY REFERENCES user_auth(email) ON DELETE CASCADE,
+    email VARCHAR(50) NOT NULL,
     name VARCHAR(50) NOT NULL,
-    enrollment_number VARCHAR(10) PRIMARY KEY,
+    enrollment_number VARCHAR(10) NOT NULL,
     roll_number VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE teacher (
-    email VARCHAR(50) FOREIGN KEY REFERENCES user_auth(email) ON DELETE CASCADE,
-    employee_id VARCHAR(10) PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
     name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE teaches (
-    email VARCHAR(50) FOREIGN KEY REFERENCES teacher(email) ON DELETE CASCADE,
-    subject_code VARCHAR(10) FOREIGN KEY REFERENCES subject(subject_code) ON DELETE CASCADE
+    email VARCHAR(50) NOT NULL,
+    subject_code VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE takes_class (
-    email VARCHAR(50) FOREIGN KEY REFERENCES teacher(email) ON DELETE CASCADE,
+    email VARCHAR(50) NOT NULL,
     semester_number INT NOT NULL,
     branch VARCHAR(50) NOT NULL,
     section VARCHAR(50)
 );
 
 CREATE TABLE class (
-    roll_number VARCHAR(50) FOREIGN KEY REFERENCES students(roll_number) ON DELETE CASCADE,
+    roll_number VARCHAR(50) NOT NULL,
     semester_number INT NOT NULL,
     branch VARCHAR(50) NOT NULL,
     section VARCHAR(50)
@@ -40,7 +39,7 @@ CREATE TABLE class (
 CREATE TABLE takes (
     semester_number INT NOT NULL,
     branch VARCHAR(50) NOT NULL,
-    subject_code VARCHAR(10) FOREIGN KEY REFERENCES subject(subject_code) ON DELETE CASCADE
+    subject_code VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE subject (
@@ -50,8 +49,8 @@ CREATE TABLE subject (
 );
 
 CREATE TABLE attendance (
-    subject_code VARCHAR(10) FOREIGN KEY REFERENCES subject(subject_code) ON DELETE CASCADE,
-    roll_number VARCHAR(10) FOREIGN KEY REFERENCES students(roll_number) ON DELETE CASCADE,
+    subject_code VARCHAR(10) NOT NULL,
+    roll_number VARCHAR(10) NOT NULL,
     status CHAR(10) NOT NULL,
     date DATE NOT NULL DEFAULT CURRENT_DATE
 );
